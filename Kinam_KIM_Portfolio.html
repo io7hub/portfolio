@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>361010_입사 지원 포트폴리오</title>
+    
+<script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Sans+KR:wght@100..900&display=swap');
+        :root {
+            --color-navy: #183153; /* Deep Navy */
+            --color-green: #4CAF50; /* Vibrant Green */
+            --color-orange: #FF9800; /* Accent Orange */
+            --color-light-gray: #f7f9fb;
+        }
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            background-color: var(--color-light-gray);
+            line-height: 1.6;
+        }
+        .header-bg { background-color: var(--color-navy); color: white; }
+        .text-navy { color: var(--color-navy); }
+        .text-green { color: var(--color-green); }
+        .bg-orange { background-color: var(--color-orange); }
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 1.5rem 0.5rem; }
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); }
+        .icon-lg { width: 2.5rem; height: 2.5rem; }
+        .border-left-accent { border-left: 6px solid var(--color-orange); }
+
+        .flow-line { position: relative; padding: 1rem 0; }
+        .flow-line::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; background-color: #ddd; transform: translateX(-50%); }
+        .flow-point { position: relative; z-index: 10; }
+        .flow-point::after { content: ''; position: absolute; left: 50%; top: 50%; width: 16px; height: 16px; background-color: var(--color-orange); border-radius: 50%; transform: translate(-50%, -50%); border: 3px solid white; }
+        @media (min-width: 768px) {
+            .flow-line::before { left: 0; transform: none; }
+            .flow-point::after { left: 0; transform: translateY(-50%); }
+            .flow-point .card { margin-left: 2rem; }
+        }
+
+        .project-card-container {
+            padding: 1.5rem 1.5rem 0 1.5rem; 
+        }
+        .project-header {
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-radius: 0.75rem;
+            padding: 0.5rem 0; 
+            margin: 0;
+        }
+        .project-header:hover {
+            background-color: #f3f4f6;
+        }
+        .project-detail-content {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.4s ease-in-out, opacity 0.4s;
+            opacity: 0;
+            padding-top: 0;
+        }
+        .project-detail-content.expanded {
+            max-height: 1000px; 
+            opacity: 1;
+            padding-top: 1.5rem;
+        }
+        
+        .project-title {
+            font-size: 1.5rem; 
+            line-height: 1.2;
+            font-weight: 800; 
+            color: var(--color-navy);
+        }
+        .project-meta {
+            font-size: 1rem; 
+            font-weight: 600; 
+            color: #4b5563; 
+            margin-left: 0.75rem;
+            white-space: nowrap;
+        }
+        .project-meta .badge {
+            font-size: 0.75rem; 
+            font-weight: 700; 
+            padding: 0.15rem 0.5rem;
+            border-radius: 9999px; 
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+
+        .icon-circle {
+            background-color: var(--color-orange); 
+            border-radius: 50%;
+            width: 3.5rem; 
+            height: 3.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0; 
+        }
+        .icon-circle svg {
+            width: 2rem; 
+            height: 2rem;
+            color: white; 
+        }
+
+        .footer-detail-group {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .cert-text {
+            word-break: keep-all; 
+        }
+        @media (max-width: 640px) {
+            .footer-detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .profile-info {
+            background-color: var(--color-navy);
+            color: white; 
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            height: 100%; 
+        }
+        .profile-summary-content {
+            padding-left: 2rem; 
+        }
+        @media (max-width: 640px) {
+            .profile-summary-content {
+                padding-left: 0;
+                padding-top: 1.5rem;
+                border-top: 1px solid #e5e7eb; 
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    
+<script>
+        function toggleProjectDetail(id) {
+            const detail = document.getElementById(id);
+            const icon = document.getElementById('icon-' + id);
+            
+            if (detail.classList.contains('expanded')) {
+                detail.classList.remove('expanded');
+                icon.classList.remove('rotate-180');
+            } else {
+                // Collapse all other expanded projects
+                document.querySelectorAll('.project-detail-content.expanded').forEach(item => {
+                    if (item.id !== id) {
+                        item.classList.remove('expanded');
+                        document.getElementById('icon-' + item.id).classList.remove('rotate-180');
+                    }
+                });
+                
+                detail.classList.add('expanded');
+                icon.classList.add('rotate-180');
+            }
+        }
+    </script>
+
+    
+<header class="header-bg py-12">
+        <div class="section-container text-center">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-3">
+                입사 지원 포트폴리오
+            </h1>
+            <h2 class="text-2xl font-light text-gray-300 mb-6">
+                <strong class="font-bold">데이터 기반 가치 전환 전략가</strong>
+            </h2>
+            
+            <div class="bg-white p-4 rounded-lg shadow-xl max-w-6xl mx-auto text-left">
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 items-stretch">
+                    
+                    <div class="col-span-1 profile-info">
+                        <div class="space-y-3 text-lg">
+                            <div>
+                                <span class="font-bold block text-green-300 pt-2"> </span>
+                                <span class="font-bold block text-gray-500">이름</span>
+                                <span class="block">김기남 (1969. 03. 10.)</span>
+                            </div>
+                            <div>
+                                <span class="font-bold block text-gray-500">연락처</span>
+                                <span class="block">010 - 2610 - 5194</span>
+                            </div>
+                            <div>
+                                <span class="font-bold block text-gray-500">이메일</span>
+                                <span class="block">io7hub@naver.com</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-span-1 sm:col-span-3 text-navy profile-summary-content">
+                        <p class="mb-3 text-lg leading-relaxed">
+                            지난 20년간 중남미를 중심으로 <strong class="font-bold">산업 기계 엔지니어링, 글로벌 유통, 제조, 농업 운영, 국제개발협력 및<br> 제조업 역량강화/ DX 프로젝트</strong>를 기획· 관리 해왔습니다.
+                        </p>
+                        <p class="mb-3 text-lg leading-relaxed">
+                            중남미 현장 경험과 IoT Platform, LangChain Agent, Streamlit, BI 도구 등을 활용 <strong class="font-bold">데이터·AI 융합 기술을 실무에 적용</strong>하며 제조 현장 데이터를 구조화하고 실행 전략으로 전환하는 역량을 보유했습니다.
+                        </p>
+                        <p class="mb-3 text-lg leading-relaxed">
+                            특히 2024~2025년에는 중남미 현지 IT 스타트업의 <strong class="font-bold">IoT Platform 기반 솔루션 5건 출시를 직접 지원</strong>하며, 전년 동기 대비 <strong class="font-bold">52.58%의 매출 성장 가속화</strong>를 이끌었습니다.
+                        </p>
+                        <p class="text-green text-xl font-bold">
+                            중남미 현장 경험과 기술, 데이터, 비즈니스 가치를 통합하여 제조 기업의 실질적인<strong class="font-bold"> AI·IoT 기반 제조 지능형 생태계 구축 로드맵</strong>을 실현합니다.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div>
+
+                <div class="footer-detail-grid grid grid-cols-2 md:grid-cols-4 gap-4 mt-3 text-sm sm:text-base">
+                    
+                    <div class="flex flex-col items-center justify-start h-full">
+                        <span class="font-bold text-gray-400 mb-1">학력</span>
+                        <span class="text-gray-300">충남대학교 나노소재(금속)공학과 졸업</span>
+                    </div>
+
+                    <div class="flex flex-col items-center justify-start h-full">
+                        <span class="font-bold text-gray-400 mb-1">자격증</span>
+                        <span class="text-gray-300 cert-text leading-relaxed">데이터 분석 준전문가, ODA 일반 자격증,</span>
+                        <span class="text-gray-300 cert-text leading-relaxed">기계설비기사 1급</span>
+                    </div>
+                    
+                    <div class="flex flex-col items-center justify-start h-full">
+                        <span class="font-bold text-gray-400 mb-1">스페인어</span>
+                        <span class="text-gray-300">고급 비즈니스 회화 및 문서 작성</span>
+                    </div>
+                    
+                    <div class="flex flex-col items-center justify-start h-full">
+                        <span class="font-bold text-gray-400 mb-1">영어</span>
+                        <span class="text-gray-300">문서 작성 및 회화 가능</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    
+<section class="section-container bg-white">
+        <h2 class="text-4xl font-extrabold text-center text-navy mb-12">
+            <strong class="font-bold">주요 프로젝트 성과 및 상세 실행 내역(최근 5년)</strong>
+        </h2>
+
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12 text-center">
+            <div class="p-6 bg-green-50 border-b-4 border-green rounded-lg shadow-md">
+                <p class="text-4xl font-extrabold text-green">4.6/5.0</p>
+                <p class="text-lg text-gray-700 mt-2">컨설팅 <strong class="font-bold">종합 만족도</strong> 달성(2024)</p>
+            </div>
+            <div class="p-6 bg-blue-50 border-b-4 border-navy rounded-lg shadow-md">
+                <p class="text-4xl font-extrabold text-navy">5건</p>
+                <p class="text-lg text-gray-700 mt-2">IoT Platform 기반 <strong class="font-bold">솔루션 출시</strong> 자문(2024)</p>
+            </div>
+            <div class="p-6 bg-orange-50 border-b-4 border-orange rounded-lg shadow-md">
+                <p class="text-4xl font-extrabold text-orange">20~41회<span class="text-lg text-gray-700 mt-2">/연간</span></p>
+                <p class="text-lg text-gray-700 mt-2"><strong class="font-bold">B2B|다자간 미팅|초청연수</strong> 기획 관리</p>
+            </div>
+        </div>
+
+<div class="space-y-6">
+
+<div class="card border-l-8 border-teal-500 p-0 overflow-hidden">
+                <div class="project-card-container">
+                    <div class="project-header flex justify-between items-center" onclick="toggleProjectDetail('project1')">
+                        <div class="flex flex-col text-left">
+                            <div class="flex items-center mb-1">
+                                <h3 class="project-title">1. SMEs DX 지원 프로젝트</h3>
+                                <span class="project-meta text-teal-600">(엘살바도르 
+                                    <span class="badge bg-teal-200 text-teal-800">2023-2025</span>)
+                                </span>
+                            </div>
+                            <p class="text-lg text-gray-700 leading-relaxed font-medium">
+                                <strong class="font-bold">IoT Platform & LangChain</strong> 기반 5개사 기술 자문, 현지<strong class="font-bold">IT Startup</strong> 대상 <strong class="font-bold">IoT Platform 개발</strong> 집중 지원 디자인 및 실행
+                            </p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-base font-semibold text-teal-600 hidden sm:block">KIAT, MINEC</span>
+                            <svg id="icon-project1" class="w-6 h-6 text-navy transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                
+<div id="project1" class="project-detail-content px-6 pb-6">
+                    <hr class="mb-4 border-gray-200">
+                    <strong class="font-bold text-lg text-navy block mb-2">상세 정보:</strong>
+                    <ul class="list-disc text-gray-700 ml-5 text-base space-y-2">
+                        <li><strong class="font-bold">사용 기술:</strong> IoT Platform, Python, Raspberry Pi, SQL - BI Tools, Streamlit + LangChain</li>
+                        <li><strong class="font-bold">담당 역할:</strong> 프로젝트 관리 | 시스템 설계 | 프롬프트 아키텍처 설계 | 대시보드 기획</li>
+                        <li><strong class="font-bold">주요 성과:</strong> 5개사 맞춤형 기술 자문 컨설팅 10회, 기업 대표단 초청 B2B 미팅, IT Startup 신제품 5건 출시 / 매출 +52.58% 견인, 종합 만족도 <strong class="font-bold">4.6/5.0</strong> 달성</li>
+                        <li><strong class="font-bold">주요 시사점:</strong> IoT Platform과 AI-Agent를 융합한 DX 프로젝트를 관리하며, 데이터 흐름을 기반으로 한 End-to-End 디지털 전환 모델 구축.
+                                                                            정부기관, 스타트업, 국내외 제조기업을 연결하는 다자 협력형 DX 실행 프레임워크를 설계하여 현지 기술 역량 강화와 경제적 성과를 동시에 달성한 AI·DX 융합형 프로젝트 수행 실적 경험</li>
+                    </ul>
+                </div>
+            </div>
+
+<div class="card border-l-8 border-sky-500 p-0 overflow-hidden">
+                <div class="project-card-container">
+                    <div class="project-header flex justify-between items-center" onclick="toggleProjectDetail('project2')">
+                        <div class="flex flex-col text-left">
+                            <div class="flex items-center mb-1">
+                                <h3 class="project-title">2. 플라스틱 오염 관리 방안 기획</h3>
+                                <span class="project-meta text-sky-600">(쿠바 
+                                    <span class="badge bg-sky-200 text-sky-800">2024</span>)
+                                </span>
+                            </div>
+                            <p class="text-lg text-gray-700 leading-relaxed font-medium">
+                                <strong class="font-bold">LangChain Agent</strong> 기반 <strong class="font-bold">분석 솔루션 Prototype</strong> 개발 기획
+                            </p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-base font-semibold text-sky-600 hidden sm:block">KADI</span>
+                            <svg id="icon-project2" class="w-6 h-6 text-navy transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                
+<div id="project2" class="project-detail-content px-6 pb-6">
+                    <hr class="mb-4 border-gray-200">
+                    <strong class="font-bold text-lg text-navy block mb-2">상세 정보:</strong>
+                    <ul class="list-disc text-gray-700 ml-5 text-base space-y-2">
+                        <li><strong class="font-bold">사용 기술:</strong> Python, SQL, BI Tools, LangChain, OpenAI API, Streamlit, Plotly, PDM(Project Design Matrix)</li>
+                        <li><strong class="font-bold">담당 역할:</strong> 프로젝트 개발 | 프로젝트 실행 프레임워크 | PDM 기획</li>
+                        <li><strong class="font-bold">주요 성과:</strong> 미실행 프로젝트지만, 컨설팅용 Streamlit 분석 솔루션 Prototype 개발 (LLM 기반 SQL 분석 → LangChain Agent + OpenAI API 활용) 성장 기반 마련</li>
+                        <li><strong class="font-bold">주요 시사점:</strong> 환경정책 자문 프로젝트에서 AI와 데이터 분석을 융합하여, <strong class="font-bold">정책 의사결정 지원형 Streamlit Prototype</strong>, LLM 기반 SQL 분석 프레임워크를 구현설계</li>
+                    </ul>
+                </div>
+            </div>
+
+<div class="card border-l-8 border-orange-500 p-0 overflow-hidden">
+                <div class="project-card-container">
+                    <div class="project-header flex justify-between items-center" onclick="toggleProjectDetail('project3')">
+                        <div class="flex flex-col text-left">
+                            <div class="flex items-center mb-1">
+                                <h3 class="project-title">3. 컨설팅용 Streamlit 데이터 솔루션 Prototype 개발</h3>
+                                <span class="project-meta text-orange-600">(엘살바도르, LATAM 
+                                    <span class="badge bg-orange-200 text-orange-800">(2023~2024)</span>)
+                                </span>
+                            </div>
+                            <p class="text-lg text-gray-700 leading-relaxed font-medium">
+                                <strong class="font-bold">Raspberry Pi</strong> 기반 IoT 데이터 수집 → 모니터링 자동화<strong class="font-bold">분석 대시보드 | 액션 로드맵 개발</strong>
+                            </p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-base font-semibold text-orange-600 hidden sm:block">KADI</span>
+                            <svg id="icon-project3" class="w-6 h-6 text-navy transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                
+<div id="project3" class="project-detail-content px-6 pb-6">
+                    <hr class="mb-4 border-gray-200">
+                    <strong class="font-bold text-lg text-navy block mb-2">상세 정보:</strong>
+                    <ul class="list-disc text-gray-700 ml-5 text-base space-y-2">
+                        <li><strong class="font-bold">사용 기술:</strong> IoT Platform, Python, Raspberry Pi, Streamlit + LangChain, PDM</li>
+                        <li><strong class="font-bold">담당 역할:</strong> 제품 개발/프로젝트 관리</li>
+                        <li><strong class="font-bold">주요 성과:</strong> 컨설팅용 Streamlit 데이터 시각화 Prototype 개발 (Raspberry Pi 기반 IoT 데이터 수집 → 모니터링 자동화). <strong class="font-bold">저비용 센서/데이터 인프라 구축 능력</strong> 확보</li>
+                        <li><strong class="font-bold">주요 시사점:</strong> IoT Platform을 기반으로 저비용 센서 네트워크를 구축해 현장 데이터를 수집하고, BI 툴 / Streamlit을 결합해<strong class="font-bold">중소기업도 접근 가능한 경량형 DX 플랫폼</strong> 개발, 기술개발과 컨설팅 프로세스를 통합한 IoT-데이터 융합형 솔루션 아키텍트 역량 강화</li>
+                    </ul>
+                </div>
+            </div>
+
+<div class="card border-l-8 border-green-500 p-0 overflow-hidden">
+                <div class="project-card-container">
+                    <div class="project-header flex justify-between items-center" onclick="toggleProjectDetail('project4')">
+                        <div class="flex flex-col text-left">
+                            <div class="flex items-center mb-1">
+                                <h3 class="project-title">4. SMEs 생산 역량 강화 - 기업 진단, 초청연수, 전시회</h3>
+                                <span class="project-meta text-green-600">(파라과이 
+                                    <span class="badge bg-green-200 text-green-800">2022~2023</span>)
+                                </span>
+                            </div>
+                            <p class="text-lg text-gray-700 leading-relaxed font-medium">
+                                <strong class="font-bold"></strong>파라과이 식품가공 기업 제조 현황 진단, 프로젝트 참여 기업 선정, B2B 매칭 및 초청 연수
+                            </p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-base font-semibold text-green-600 hidden sm:block">KIAT, REDIEX</span>
+                            <svg id="icon-project4" class="w-6 h-6 text-navy transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                
+<div id="project4" class="project-detail-content px-6 pb-6">
+                    <hr class="mb-4 border-gray-200">
+                    <strong class="font-bold text-lg text-navy block mb-2">상세 정보:</strong>
+                    <ul class="list-disc text-gray-700 ml-5 text-base space-y-2">
+                        <li><strong class="font-bold">사용 기술:</strong> Smart HACCP, 자체 평가 시스템, Python, 이해관계자 스토리 보드, 전시회, 초청연수</li>
+                        <li><strong class="font-bold">담당 역할:</strong> 프로젝트 관리, 현지 전문가, B2B 매칭, 생산 현장 견학</li>
+                        <li><strong class="font-bold">주요 성과:</strong> 프로젝트 참여 기업 선정을 위한 기업 진단, B2B 매칭기업 상호 방문, 전시회 초청. 농산업 분야의 원물/가공/품질/유통 관련 도메인 지식, DX 도입 사례 공유</li>
+                        <li><strong class="font-bold">주요 시사점:</strong> 파라과이 식품가공 기업의 생산 현장 진단과 Smart HACCP 도입을 주도하여, 현장 중심의 품질관리 체계를 구축. 또한 B2B 매칭, 전시회, 초청연수를 통해<strong class="font-bold">제조 역량 강화와 국제협력 네트워크 확대</strong> 및 <strong class="font-bold">국제개발형 DX 프로젝트를 현장 실행 중심으로 운영</strong>하는 실무형 컨설턴트 역량 강화</li>
+                    </ul>
+                </div>
+            </div>
+
+<div class="card border-l-8 border-yellow-500 p-0 overflow-hidden">
+                <div class="project-card-container">
+                    <div class="project-header flex justify-between items-center" onclick="toggleProjectDetail('project5')">
+                        <div class="flex flex-col text-left">
+                            <div class="flex items-center mb-1">
+                                <h3 class="project-title">5. SMEs 생산 역량 강화 - 맞춤형 컨설팅</h3>
+                                <span class="project-meta text-yellow-600">(에콰도르 
+                                    <span class="badge bg-yellow-200 text-yellow-800">2019-2021</span>)
+                                </span>
+                            </div>
+                            <p class="text-lg text-gray-700 leading-relaxed font-medium">
+                                Smart HACCP, 분석실험, 관능평가 등 <strong class="font-bold">12개 제조사 컨설팅</strong> 실행
+                            </p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-base font-semibold text-yellow-600 hidden sm:block">KIAT, MPCEIP</span>
+                            <svg id="icon-project5" class="w-6 h-6 text-navy transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                
+<div id="project5" class="project-detail-content px-6 pb-6">
+                    <hr class="mb-4 border-gray-200">
+                    <strong class="font-bold text-lg text-navy block mb-2">상세 정보:</strong>
+                    <ul class="list-disc text-gray-700 ml-5 text-base space-y-2">
+                        <li><strong class="font-bold">사용 기술:</strong> Smart HACCP, 성분분석, 관능평가, Python, PDM, 이해관계자 스토리 보드</li>
+                        <li><strong class="font-bold">담당 역할:</strong> 중남미 국제개발협력 | 현지 프로젝트 관리</li>
+                        <li><strong class="font-bold">주요 성과:</strong> 에콰도르 39개의 다양한 기업 현장 실사 → 12개 기업 최종 선정 <strong class="font-bold">B2B/G2G 미팅 41회 진행으로 공공-민간 협력 플랫폼 구축, 품질/위생 관리 표준화(HACCP) </strong>등 팩데믹 위기 속에도 <strong class="font-bold">글로벌 협업/연대를 통한 팬데믹 대응 성공 사례</strong></li>
+                        <li><strong class="font-bold">주요 시사점:</strong> 39개 기업 제조 현장 실사(8,800Km), G2G 협상, 팬데믹 위기 속에서도 글로벌 연대 및 디지털 자문 모델 구현한 국제협력형 DX 모델의 근간</li>
+                    </ul>
+                </div>
+            </div>
+
+<div class="card border-l-8 border-purple-500 p-0 overflow-hidden">
+                <div class="project-card-container">
+                    <div class="project-header flex justify-between items-center" onclick="toggleProjectDetail('project6')">
+                        <div class="flex flex-col text-left">
+                            <div class="flex items-center mb-1">
+                                <h3 class="project-title">6. 안데스고원지대 농기계 개발 타당성 조사</h3>
+                                <span class="project-meta text-purple-600">(에콰도르 
+                                    <span class="badge bg-purple-200 text-purple-800">2021</span>)
+                                </span>
+                            </div>
+                            <p class="text-lg text-gray-700 leading-relaxed font-medium">
+                                안데스 고원지대(해발 2,800~3,200m) 환경에 적합한 농기계 개발 타당성 조사 <strong class="font-bold">국산 농기계 현지화 타당성 및 기술 사양 검토</strong>
+                            </p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-base font-semibold text-purple-600 hidden sm:block">KIAT, MPCEIP</span>
+                            <svg id="icon-project6" class="w-6 h-6 text-navy transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                
+<div id="project6" class="project-detail-content px-6 pb-6">
+                    <hr class="mb-4 border-gray-200">
+                    <strong class="font-bold text-lg text-navy block mb-2">상세 정보:</strong>
+                    <ul class="list-disc text-gray-700 ml-5 text-base space-y-2">
+                        <li><strong class="font-bold">사용 기술:</strong> CAD, Python, 현지 타당성조사, PDM, 이해관계자 스토리 보드, 2G 매칭, 산업 시찰, 초청연수</li>
+                        <li><strong class="font-bold">담당 역할:</strong> 현지 전문가 | 프로젝트 관리, G2G/G2B 매칭 및 산업 시찰</li>
+                        <li><strong class="font-bold">주요 성과:</strong> 안데스 고원지대 작물분포에 따른 맞춤형 농기계 모델 발굴, 고위급 대표단 초청 산업시찰 및 B2B 미팅 행사 추진, 국산 농기계 중남미 진출/현지화 전략 탐색</li>
+                        <li><strong class="font-bold">주요 시사점:</strong> 시장 창출, 공익, 저비용 경량기계 공급, 유지보수 생태계 구축, 지속가능성 전략과 기술 이전 기반 협력 로드맵 설계, 현지 생산·유통 생태계 형성 전략 수립<strong class="font-bold">데이터·기술·정책이 통합된 국제협력형 엔지니어링 모델</strong>을 구축한 사례</li>
+                    </ul>
+                </div>
+            </div>
+           
+<div class="card border-l-8 border-red-500 p-0 overflow-hidden">
+                <div class="project-card-container">
+                    <div class="project-header flex justify-between items-center" onclick="toggleProjectDetail('project7')">
+                        <div class="flex flex-col text-left">
+                            <div class="flex items-center mb-1">
+                                <h3 class="project-title">7. 제조 혁신 센터 건립 타당성 조사</h3>
+                                <span class="project-meta text-red-600">(에콰도르 
+                                    <span class="badge bg-red-200 text-red-800">2021</span>)
+                                </span>
+                            </div>
+                            <p class="text-lg text-gray-700 leading-relaxed font-medium">
+                                Pilot 생산라인 기반의 <strong class="font-bold">데이터 분석을 통한 신제품 개발 및 기술지원 플랫폼</strong> 구현을 통한 지속가능한 수출 역량 향상
+                            </p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-base font-semibold text-red-600 hidden sm:block">KIAT, MPCEIP, KADI</span>
+                            <svg id="icon-project7" class="w-6 h-6 text-navy transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                
+<div id="project7" class="project-detail-content px-6 pb-6">
+                    <hr class="mb-4 border-gray-200">
+                    <strong class="font-bold text-lg text-navy block mb-2">상세 정보:</strong>
+                    <ul class="list-disc text-gray-700 ml-5 text-base space-y-2">
+                        <li><strong class="font-bold">사용 기술:</strong> Pilot Plant, 현지 타당성 조사, 자체 평가시스템, 이해관계자 스토리보드, G2G 매칭, IoT Platform, Python, PDM</li>
+                        <li><strong class="font-bold">담당 역할:</strong> 현지 전문가 | 프로젝트 관리</li>
+                        <li><strong class="font-bold">주요 성과:</strong> 핵심 육성 제조 분야(8개) 선정, Smart Factory Pilot 생산라인 설계, <strong class="font-bold">거버넌스 설계, 데이터 분석 기반 신제품 개발 플랫폼, 지속가능한 운영모델 제시</strong></li>
+                        <li><strong class="font-bold">주요 시사점:</strong> 파일럿 라인 기반의 <strong class="font-bold">데이터 분석·기술지원 플랫폼</strong>을 기획, 지속가능한 스마트 제조 생태계 구축의 청사진을 제시한 국제협력형 플랫폼 기획</li>
+                    </ul>
+                </div>
+            </div>
+           
+<div class="card border-l-8 border-gray-500 p-0 overflow-hidden">
+                <div class="project-card-container">
+                    <div class="project-header flex justify-between items-center" onclick="toggleProjectDetail('project8')">
+                        <div class="flex flex-col text-left">
+                            <div class="flex items-center mb-1">
+                                <h3 class="project-title">8. 산업기계·설비 개발·설계직종 근무<span class="project-meta text-gray-600">(국내 <span class="badge bg-gray-200 text-gray-800">1994~2004</span> 크레인·특장차·압출기·산업기계 CAD·개발·생산<span class="project-meta text-orange-600">기술 기반 형성</span>)</span> 
+                                                        <p><span class="text-white">. . </span> 수입·유통 사업 운영<span class="project-meta text-gray-600">(에콰도르, LATAM <span class="badge bg-gray-200 text-gray-800">2005~2009</span>KPIs 기반 트렌드 분석, 유통망 확장 및 공급망 관리<span class="project-meta text-orange-600">LATAM 확장</span>)</span></p>
+                                                        <p><span class="text-white">. . </span> 설비 엔지니어링 사업 운영<span class="project-meta text-gray-600">(에콰도르, LATAM <span class="badge bg-gray-200 text-gray-800">2009~2022</span>중남미 제조 분야 프로젝트 관리 및<span class="project-meta text-orange-600">DX·AI 혁신|글로벌 협력</span>)</span></p></h3>
+                            </div>
+                            <p class="text-lg text-gray-700 leading-relaxed font-medium">
+                                산업 설비 개발 || 고객/제품/유통망 <strong class="font-bold">데이터 분석</strong> 기반 트렌드 분석, 고객 관리, 비즈니스 모델 개발 || 제조 설비 엔지니어링
+                            </p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-base font-semibold text-gray-600 hidden sm:block">IMENG,KENOTEC</span>
+                            <svg id="icon-project8" class="w-6 h-6 text-navy transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                
+<div id="project8" class="project-detail-content px-6 pb-6">
+                    <hr class="mb-4 border-gray-200">
+                    <strong class="font-bold text-lg text-navy block mb-2">상세 정보:</strong>
+                    <ul class="list-disc text-gray-700 ml-5 text-base space-y-2">
+                        <li><strong class="font-bold">사용 기술:</strong> CAD, 문제해결형 브레인스토밍·마인드맵, 이해관계스토리, Gantt Chart, 구조분석 솔루션, PDM, Excel query-데이터 기반 트렌드, 플랫폼 & HR 분석</li>
+                        <li><strong class="font-bold">담당 역할:</strong> 설계 개발 프로젝트 실무 || 도면 BOM 데이터 생성 관리 || 사업 운영 의사 결정</li>
+                        <li><strong class="font-bold">주요 고객사:</strong> MEGAMAXI | SANTAMARIA | EL RECREO | CCI | CC ESPIRAL | CONDADO SHOPPING | ADELCA | AYMESA | GMOBB | PONCE YEPES etc.</li>
+                        <li><strong class="font-bold">주요 성과:</strong> <strong class="font-bold">[설계·개발]<span class="project-meta text-sky-600">제조 데이터 파이프라인 기반 형성</span> </strong> → <strong class="font-bold"> [수입·유통사업]<span class="project-meta text-sky-600">데이터 분석 기반의 의사결정 내재화</span> </strong> → <strong class="font-bold"> [엔지니어링사업]<span class="project-meta text-sky-600">컨설팅용 분석시스템 운용</span></strong></li>
+                        <li><strong class="font-bold">주요 시사점:</strong> 중남미에서 수입·유통 사업 운영의 <strong class="font-bold">비즈니스 구조를 통한 데이터 사고</strong>의 토대 구축. 다양한 엔지니어링 프로젝트 운영에서 다져진 <strong class="font-bold">IoT·설비데이터 응용력 & 센서-데이터-분석 파이프라인 실무 감각</strong>으로 기술과 사람, 데이터와 전략를 연결해 <strong class="font-bold">지속 가능한 혁신</strong>을 견인</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+<section class="section-container">
+        <h2 class="text-4xl font-extrabold text-center text-navy mb-12">
+             <strong class="font-bold">데이터 기반 가치 전환 전략가</strong>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            
+<div class="flow-line col-span-1 md:col-span-1">
+                <div class="flow-point">
+                    <div class="card border-t-4 border-green-600">
+                        <h3 class="text-2xl font-extrabold text-navy mb-3"><span class="text-xl font-bold text-green-600 mr-2">DATA</span><p>관찰에서 구조로</p></h3>
+                        <p class="text-gray-700 mb-4 font-semibold">데이터 분석 및 시각화</p>
+                        <ul class="list-disc text-gray-700 ml-5 text-base space-y-1">
+                            <li>다양한 도메인 경험 기반 시스템·현장·사람 <strong class="font-bold">스토리보드</strong> & <strong class="font-bold">전략 플래너</strong> 구축</li>
+                            <li>수집된 사실과 현장의 데이터를 <strong class="font-bold">관찰</strong>하고, 의미 있는 인사이트로 <strong class="font-bold">구조화</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+<div class="flow-line col-span-1 md:col-span-1">
+                <div class="flow-point">
+                    <div class="card border-t-4 border-blue-700">
+                        <h3 class="text-2xl font-extrabold text-navy mb-3"><span class="text-xl font-bold text-blue-700 mr-2">STRATEGY</span><p>데이터에서 방향으로</p></h3>
+                        <p class="text-gray-700 mb-4 font-semibold">협력 구조 및 KPI 중심 전략 설계</p>
+                        <ul class="list-disc text-gray-700 ml-5 text-base space-y-1">
+                            <li><strong class="font-bold">데이터</strong>에서 인사이트 도출, 실행 가능한 <strong class="font-bold">전략</strong>으로 설계</li>
+                            <li><strong class="font-bold">AI 프레임워크</strong> 기반 의사결정 및 전략 실행 프로세스를 체계화</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+<div class="flow-line col-span-1 md:col-span-1">
+                <div class="flow-point">
+                    <div class="card border-t-4 border-yellow-500">
+                        <h3 class="text-2xl font-extrabold text-navy mb-3"><span class="text-xl font-bold text-yellow-600 mr-2">VALUE</span><p>전략에서 가치로</p></h3>
+                        <p class="text-gray-700 mb-4 font-semibold">지속가능한 성장 모델 제시</p>
+                        <ul class="list-disc text-gray-700 ml-5 text-base space-y-1">
+                            <li><strong class="font-bold">전략</strong>을 실행 가능한 <strong class="font-bold">가치</strong>로 전환하고,</li>
+                            <p><span class="text-xl font-bold text-gray-50 mr-2">~</span></p>
+                            <li><strong class="font-bold">데이터</strong>로 <strong class="font-bold">사람</strong>을 연결해 지속가능한 <strong class="font-bold">성장</strong> 촉진</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<footer class="header-bg py-8 mt-10">
+        <div class="section-container text-center">
+            <h3 class="text-2xl font-bold mb-5">CONTACT</h3>
+            <div class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-12 text-lg text-gray-200">
+                <div class="flex items-center justify-center">
+                    <span class="font-bold mr-2">e. </span> io7hub@naver.com
+                </div>
+                <div class="flex items-center justify-center">
+                    <span class="font-bold mr-2">c. </span> 010-2610-5194
+                </div>
+            </div>
+                
+            <p class="mt-12 text-center text-xs text-gray-200">
+            © 2025 Kinam KIM | ¡Juntos por el desarrollo! | 2025-11-10
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
