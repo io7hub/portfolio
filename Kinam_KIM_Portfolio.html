@@ -6,17 +6,26 @@
     <title>361017_데이터 기반 가치 전환 전략가 경력 포트폴리오</title>
     
 <script>
-fetch("https://script.google.com/macros/s/AKfycbx2Qkms3tM8XjyAhkBzBGVuJ-PXn7O4c6QELkLNlzk1iwfT0SEC40oLs_dBdB0D04OyYQ/exec", {
-  method: "POST",
-  mode: "no-cors",
-  headers: {"Content-Type": "application/json"},
-  body: JSON.stringify({
-    page: window.location.pathname,
-    referrer: document.referrer,
-    userAgent: navigator.userAgent
+(function() {
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbx2Qkms3tM8XjyAhkBzBGVuJ-PXn7O4c6QELkLNlzk1iwfT0SEC40oLs_dBdB0D04OyYQ/exec";
+
+  fetch(GAS_URL, {
+    method: "POST",
+    mode: "no-cors", // ✅ CORS 문제 방지
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      page: window.location.pathname,
+      referrer: document.referrer || "direct",
+      userAgent: navigator.userAgent
+    })
   })
-});
+  .then(() => console.log("✅ WebTraffic_Logs sent to GAS"))
+  .catch(err => console.error("❌ Fetch Error:", err));
+})();
 </script>
+
 
     
 <script src="https://cdn.tailwindcss.com"></script>
