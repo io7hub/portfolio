@@ -9,15 +9,18 @@
 (function() {
   const GAS_URL = "https://script.google.com/macros/s/AKfycbxqo2Dh0UvXtAjHCNrI_SSnqZCDO_eJ4PFlRKB7hDrHk_W36e0f1X9r1Tx-NpQBY1TPBA/exec";
 
-  const formData = new FormData();
-  formData.append("page", window.location.pathname);
-  formData.append("referrer", document.referrer || "direct");
-  formData.append("userAgent", navigator.userAgent);
+
+  // FormData 대신 URLSearchParams로 변경 (가장 안정적)
+  const params = new URLSearchParams();
+  params.append("page", window.location.pathname);
+  params.append("referrer", document.referrer || "direct");
+  params.append("userAgent", navigator.userAgent);
 
   fetch(GAS_URL, {
     method: "POST",
-    mode: "no-cors", // ✅ 반드시 유지
-    body: formData   // ✅ JSON 대신 FormData 전송
+    mode: "no-cors",  // ✅ 반드시 유지
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: params
   })
   .then(() => console.log("✅ WebTraffic_Logs sent to GAS"))
   .catch(err => console.error("❌ Fetch Error:", err));
