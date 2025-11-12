@@ -9,23 +9,20 @@
 (function() {
   const GAS_URL = "https://script.google.com/macros/s/AKfycbx2Qkms3tM8XjyAhkBzBGVuJ-PXn7O4c6QELkLNlzk1iwfT0SEC40oLs_dBdB0D04OyYQ/exec";
 
+  const formData = new FormData();
+  formData.append("page", window.location.pathname);
+  formData.append("referrer", document.referrer || "direct");
+  formData.append("userAgent", navigator.userAgent);
+
   fetch(GAS_URL, {
     method: "POST",
-    mode: "no-cors", // ✅ CORS 문제 방지
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      page: window.location.pathname,
-      referrer: document.referrer || "direct",
-      userAgent: navigator.userAgent
-    })
+    mode: "no-cors", // ✅ 반드시 유지
+    body: formData   // ✅ JSON 대신 FormData 전송
   })
   .then(() => console.log("✅ WebTraffic_Logs sent to GAS"))
   .catch(err => console.error("❌ Fetch Error:", err));
 })();
 </script>
-
 
     
 <script src="https://cdn.tailwindcss.com"></script>
