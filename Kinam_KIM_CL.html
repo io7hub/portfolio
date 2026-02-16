@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ken KIM | AI Platform Operator Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  /* 세련된 Tech 테마 컬러 */
+  --primary: #2563eb;       /* 신뢰감을 주는 블루 */
+  --primary-dark: #1e40af;  /* 깊이감 있는 블루 */
+  --secondary: #10b981;     /* 실행력을 상징하는 에메랄드 */
+  --dark: #0f172a;          /* 텍스트용 다크 슬레이트 */
+  --gray: #64748b;          /* 본문용 그레이 */
+  --bg-light: #f8fafc;      /* 배경색 */
+  --white: #ffffff;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: var(--bg-light);
+  color: var(--dark);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { text-decoration: none; color: inherit; transition: color 0.2s; }
+
+/* ========== Typography ========== */
+h1, h2, h3 { font-family: 'Inter', 'Noto Sans KR', sans-serif; letter-spacing: -0.02em; }
+.highlight-text { color: var(--primary); font-weight: 700; }
+
+/* ========== Layout ========== */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ========== Hero Section ========== */
+.hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  color: white;
+  padding: 80px 0 70px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* 배경 장식 효과 */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.05) 0%, transparent 20%),
+    radial-gradient(circle at 80% 70%, rgba(37, 99, 235, 0.2) 0%, transparent 30%);
+  z-index: 1;
+}
+
+.hero-content { position: relative; z-index: 2; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 99px;
+  padding: 6px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #bfdbfe;
+  margin-bottom: 24px;
+  backdrop-filter: blur(4px);
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 16px;
+  word-break: keep-all;
+}
+
+.hero p.subtitle {
+  font-size: 1.15rem;
+  color: #cbd5e1;
+  font-weight: 300;
+  margin-bottom: 30px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero .name-tag {
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  background: var(--primary);
+  padding: 8px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+/* ========== Section Base ========== */
+.section {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 50px 40px;
+  margin: 40px auto;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(226, 232, 240, 0.6);
+}
+
+.section:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 15px;
+}
+
+.section-num {
+  font-family: 'Inter', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #e2e8f0;
+  margin-right: 15px;
+  line-height: 1;
+}
+
+.section h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.text-body {
+  font-size: 1.05rem;
+  color: #475569;
+  line-height: 1.8;
+  word-break: keep-all;
+}
+
+/* ========== Highlight Box ========== */
+.highlight-box {
+  background: linear-gradient(to right, #eff6ff, #f8fafc);
+  border-left: 5px solid var(--primary);
+  padding: 24px 30px;
+  border-radius: 0 12px 12px 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--primary-dark);
+  margin-bottom: 20px;
+}
+
+/* ========== Grid System (Competency) ========== */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.card {
+  background: var(--bg-light);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.card:hover {
+  background: white;
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: #e2e8f0;
+}
+
+.card-icon {
+  font-size: 2rem;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: var(--dark);
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: var(--gray);
+  line-height: 1.6;
+}
+
+/* ========== Portfolio Table Style ========== */
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* 모바일 가로 스크롤 최소폭 */
+}
+
+th {
+  background: #f1f5f9;
+  color: var(--dark);
+  font-weight: 600;
+  text-align: left;
+  padding: 16px 20px;
+  font-size: 0.9rem;
+}
+
+td {
+  padding: 18px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.95rem;
+  color: #334155;
+  vertical-align: top;
+}
+
+tr:last-child td { border-bottom: none; }
+tr:hover { background-color: #f8fafc; }
+
+.tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+
+.tag.blue { background: #dbeafe; color: #1d4ed8; }
+.tag.green { background: #dcfce7; color: #15803d; }
+.tag.gray { background: #f1f5f9; color: #475569; }
+
+/* ========== Value Proposition (Why Ken) ========== */
+.value-prop {
+  background: #f0fdf4; /* 아주 연한 그린 */
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  margin-top: 24px;
+}
+
+.value-prop h4 {
+  color: var(--secondary);
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.value-prop p {
+  color: #166534;
+  font-weight: 500;
+}
+
+/* ========== Tech Stack ========== */
+.tech-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  margin-bottom: 12px;
+  align-items: flex-start;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.tech-row:last-child { border-bottom: none; margin-bottom: 0; }
+
+.tech-category {
+  font-weight: 700;
+  color: var(--dark);
+  font-size: 0.9rem;
+  padding-top: 6px;
+}
+
+.tech-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tech-chip {
+  background: white;
+  border: 1px solid #cbd5e1;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #475569;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.tech-chip:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: #eff6ff;
+}
+
+/* ========== Quote ========== */
+.quote-section {
+  text-align: center;
+  max-width: 800px;
+  margin: 60px auto;
+}
+
+.quote-card {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.quote-card::before {
+  content: '"';
+  position: absolute;
+  top: -10px; left: 20px;
+  font-size: 120px;
+  color: #f1f5f9;
+  font-family: serif;
+  z-index: 0;
+}
+
+.quote-text {
+  position: relative;
+  z-index: 1;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--dark);
+  line-height: 1.6;
+}
+
+.quote-author {
+  margin-top: 20px;
+  color: var(--primary);
+  font-weight: 700;
+  display: block;
+}
+
+/* ========== Footer ========== */
+footer {
+  background: #0f172a;
+  color: #94a3b8;
+  padding: 60px 0;
+  text-align: center;
+  border-top: 1px solid #1e293b;
+}
+
+footer strong { color: white; }
+footer a:hover { color: var(--primary); text-decoration: underline; }
+
+/* ========== Responsive ========== */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 1.8rem; }
+  .grid-3 { grid-template-columns: 1fr; }
+  .section { padding: 30px 20px; margin: 20px; }
+  .tech-row { grid-template-columns: 1fr; gap: 8px; }
+  .tech-category { padding-top: 0; color: var(--primary); }
+  .highlight-box { font-size: 1rem; padding: 20px; }
+  .section-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .section-num { font-size: 2rem; margin-right: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Hero Section -->
+<header class="hero">
+  <div class="container hero-content">
+    <div class="badge">AI Platform Operator Portfolio</div>
+    <h1>
+      현장의 언어를 <span style="color:#60a5fa;">데이터 구조</span>로 번역하고,<br>
+      아이디어를 <span style="color:#60a5fa;">실행 전략</span>으로 전환합니다.
+    </h1>
+    <p class="subtitle">
+      — 국제개발협력이라는 다양하고 복잡한 도메인 환경에서 XAI 기반 가치 전환 전략 구현 —
+    </p>
+    <div class="name-tag">Kⁱ⁰⁷ XAI 기반 가치 전환 전략 | 김기남</div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- 01. Motivation -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>지원 동기: 왜 이 포지션인가?</h2>
+    </div>
+    <div class="highlight-box">
+      "현장이 필요로 하는 것을 직접 만들어 해결한다" — 이 한 문장이 제 20년 커리어의 핵심이자, AI Operator로서 최고의 가치를 드릴 수 있는 이유입니다.
+    </div>
+    <div class="text-body">
+      <p>저는 개발자 출신은 아닙니다. 하지만 지난 20년간 국제개발협력 사업 영역에서 다양한 이해관계자와 <strong>문제를 빠르게 정의하고, 데이터와 기술을 학습하여 직접 해결책을 구축</strong>하는 능력이 내재화되었습니다.</p>
+      <p style="margin-top:12px;">LLM을 활용한 바이브코딩, 자동화 툴 개발, 데이터 시각화, 그리고 파트너사와의 기술 커뮤니케이션. 이 모든 역량은 교과서가 아닌, "이건 이 프로젝트에 꼭 필요하다"는 절박한 현장에서 체득한 실전 도구 상자입니다.</p>
+    </div>
+  </section>
+
+  <!-- 02. Core Competencies -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2>핵심 역량: 현장이 길러낸 실전 기술</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <span class="card-icon">🛠️</span>
+        <h3>UI로 구현하는 비개발자</h3>
+        <p>비개발자와 개발자, 전략과 실행의 간극을 메우는 통역사입니다. Streamlit UI 구현을 위해 Python을 익히고, 경영 Know-how를 체계화해야 했기에 LangChain과 RAG 구조를 배웠습니다. 기술 학습의 동기가 항상 실무 문제 해결에 있었기에, 반드시 실행 결과물로 이어졌습니다.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">📄</span>
+        <h3>데이터 구조화 전문가</h3>
+        <p>서로 다른 언어와 다양한 관점을 가진 이해관계자를 하나의 프로젝트로 엮어야 했기에, 복잡한 기술 정보를 비기술자의 언어로 번역하는 능력이 자연스럽게 형성되었습니다. 다양한 데이터와 정보를 하나의 일관된 맥락으로 통합하고 융합하는 20년 실무 경험이 기반입니다.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🚀</span>
+        <h3>Zero to One (0→1) 실행</h3>
+        <p>때로는 인프라와 매뉴얼도 없는 중남미 국가 산업 현장에서 IoT 플랫폼과 대시보드를 바닥부터 설계했습니다. 지금 당장 필요한 "되는 방법"을 직접 만들어야 했기에, Vibecoding | Streamlit UI를 기반으로 빠른 문제 정의와 솔루션 설계가 내재화 되어있습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03. Portfolio -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>Project Portfolio: 직무 적합성</h2>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 27%">직무 요구사항</th>
+            <th style="width: 40%">수행 내용</th>
+            <th style="width: 33%">직무역량 연결 포인트</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>LLM &  Ontology 기반 <br>경영 Know-how Agent</strong></td>
+            <td>LangChain AI Agent, RAG 시스템, <br>Streamlit MVP 개발 및 프로토타입 구현</td>
+            <td>
+              <span class="tag blue">AI 서비스 설계</span>
+              <span class="tag gray">LLM 구조화</span>
+              <span class="tag gray">AI 활용 바이브코딩</span>
+              <span class="tag gray">MVP 구현</span>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>내부 자동화 툴 개발</strong></td>
+            <td>Python·SQL 자동 리포트, <br>KPI 자동 산출</td>
+            <td>
+              <span class="tag green">AI 기반 업무 자동화 설계</span>
+              <span class="tag gray">스크립트 개발역량</span>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>데이터 정리·대시보드</strong></td>
+            <td>BI Tools-KPI 체계, <br>OEE·ROI 분석 및 시각화 시스템 구축
+            </td>
+            <td>
+              <span class="tag blue">데이터 구조화</span>
+              <span class="tag gray">의사결정 지원 대시보드</span>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>제조 DX 컨설팅 프로젝트 <br>운영·프로세스 정리</strong></td>
+            <td>0→1 플랫폼 구축, IoT-MES-ERP 연계, <br>공정 데이터 구조화, 스마트 HACCP 구현</td>
+            <td>
+              <span class="tag green">프로세스 아키텍처 설계</span>
+              <span class="tag gray">플랫폼 운영</span>
+              <span class="tag gray">파트너 소통 브릿지</span>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>문서 정리·기획 분석</strong></td>
+            <td>한-중남미 국가 정부 기관용 다양한 <br>기술보고서·사업기획서 작성</td>
+            <td>
+              <span class="tag blue">기술 문서화</span>
+              <span class="tag gray">비즈니스 번역 역량</span>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>조직 내 AI 확산·가교 역할</strong></td>
+            <td>정부–기업–현장 협업 프로젝트 수행</td>
+            <td>
+              <span class="tag green">조직 간 협업 조율</span>
+              <span class="tag gray">AI 활용 확산 촉진</span>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>AI 도구 활용 역량</strong></td>
+            <td>LLM 기반 전문 분석 프롬프트·<br>Ontology Rule Engine 설계</td>
+            <td>
+              <span class="tag blue">프롬프트 설계</span>
+              <span class="tag gray">AI 오케스트레이션</span>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>XAI 기반 가치전환전략 앱</strong></td>
+            <td>Streamlit 기반 데이터 분석 및 <br>의사결정 지원 앱 직접 구현 (Full-cycle)</td>
+            <td>
+              <span class="tag green">문제 해결용 Streamlit 웹 구현</span>
+              <span class="tag gray">"필요한 건 직접 만들어 해결"</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <span class="quote-author"><a href="https://io7hub-projects-info-projects-main-jqmujm.streamlit.app/" target="_blank">🌐 프로젝트 포트폴리오_Portfolio Web</a></span>
+  </section>
+
+  <!-- 04. Why Ken -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>경험과 데이터로 여는 비전: 경험의 깊이가 만드는 차이</h2>
+    </div>
+    <div class="text-body">
+      <p>저는 일반적인 신입 지원자보다 나이가 많고, 연차가 높습니다. 하지만 20년간 다양한 영역의 국내외 제조 기업 현장을 거치며 축적한 것은 단순한 경력이 아닌, <strong>비즈니스의 맥락을 읽고 XAI 기술을 도구 상자로 활용하는 통찰력</strong>입니다.</p>
+      
+      <div class="value-prop">
+        <h4>"신입의 자세로 배우되, 시니어의 시야로 기여하겠습니다."</h4>
+        <p>새로운 도메인, 새로운 팀, 새로운 문화 — <br>제가 늘 새로 시작하는 프로젝트에서 처음부터 신뢰를 쌓고 성과를 만들어 온 것이 제 경력의 본질입니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05. Tech Stack -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2>Tech & Tools</h2>
+    </div>
+    <div class="tech-stack-container">
+      <div class="tech-row">
+        <div class="tech-category">AI / LLM</div>
+        <div class="tech-items">
+          <span class="tech-chip">LangChain</span>
+          <span class="tech-chip">RAG Architecture</span>
+          <span class="tech-chip">Prompt Engineering</span>
+          <span class="tech-chip" style="background-color:#f0fdf4; border-color:#bbf7d0; color:#166534;">Ontology</span>
+          <span class="tech-chip">AI / LLM</span>
+        </div>
+      </div>
+      <div class="tech-row">
+        <div class="tech-category">Data & BI</div>
+        <div class="tech-items">
+          <span class="tech-chip" style="background-color:#f0fdf4; border-color:#bbf7d0; color:#166534;">Streamlit - BI Tools</span>
+          <span class="tech-chip">SQL</span>
+          <span class="tech-chip">KPI Modeling</span>
+          <span class="tech-chip">Data Visualization</span>
+        </div>
+      </div>
+      <div class="tech-row">
+        <div class="tech-category">Dev & Tools</div>
+        <div class="tech-items">
+          <span class="tech-chip">Python</span>
+          <span class="tech-chip">Streamlit</span>
+          <span class="tech-chip" style="background-color:#f0fdf4; border-color:#bbf7d0; color:#166534;">AI Vibe Coding</span>
+          <span class="tech-chip">API Integration</span>
+        </div>
+      </div>
+      <div class="tech-row">
+        <div class="tech-category">Soft Skills</div>
+        <div class="tech-items">
+          <span class="tech-chip" style="background-color:#f0fdf4; border-color:#bbf7d0; color:#166534;">20년 Global 협업(스페인어·영어)</span>
+          <span class="tech-chip">다양한 제조·서비스 도메인 경험</span>
+          <span class="tech-chip">Stakeholder Management</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Quote & Footer -->
+<div class="quote-section">
+  <div class="quote-card">
+    <p class="quote-text">
+      "시키는 일"보다 "필요한 일"을 먼저 찾습니다.<br>
+      "있으면 좋겠다"는 막연함을 "만들어서 쓴다"는 확신으로 바꿉니다.<br><br>
+      AI를 단순한 도구 수준이 아니라 가치전환 운영 체계로 구현하겠습니다.
+    </p>
+    <span class="quote-author">— XAI 기반 가치 전환 전략</span>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <h3>김기남 (Kinam KIM)</h3>
+    <p style="margin-bottom: 10px;">제시아플랫폼주식회사 AI Platform Operator 지원자 (AI Ops / Builder)</p>
+    <p>
+      <a href="https://io7hub-projects-info-projects-main-jqmujm.streamlit.app/" target="_blank">🌐 XAI Project List_Portfolio Web</a> | 
+      <a href="mailto:io7hub@naver.com">📧 io7hub@naver.com</a>
+    </p>
+    <p style="margin-top: 30px; font-size: 0.8rem; color: #475569;">
+      © 2026 Kⁱ⁰⁷ io7hub All Rights Reserved.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
